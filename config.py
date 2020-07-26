@@ -7,7 +7,6 @@ class AppConfig(object):
 
     # database
     SQLALCHEMY_DATABASE_URI = os.getenv("OURFM_DB_URL")
-    SQLALCHEMY_DATABASE_URI = "postgresql://localhost/ourfm"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # flask restplus

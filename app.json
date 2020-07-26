@@ -1,0 +1,35 @@
+{
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "env": {
+    "CLIENT_ID": {
+      "required": true
+    },
+    "CLIENT_SECRET": {
+      "required": true
+    },
+    "REDIRECT_URI": {
+      "required": true
+    },
+    "OURFM_DB_URL": {
+      "required": true
+    },
+    "SUPPORT_EMAIL": {
+      "required": true
+    },
+    "formation": {
+      "web": {
+        "quantity": 1
+      }
+    },
+    "name": "our-fm",
+    "scripts": {
+    },
+    "stack": "heroku-18"
+  }
