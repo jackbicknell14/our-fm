@@ -1,3 +1,4 @@
+from sqlalchemy.dialects.postgresql import JSON, UUID, JSONB, ARRAY
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text as sqlalchemy_text
 from sqlalchemy.sql import func, expression
@@ -12,4 +13,6 @@ class User(UUIDMixin, db.Model):
     __tablename__ = 'users'
 
     email = Column(String, nullable=False, unique=True, index=True)
-    refresh_token = Column(String, nullable=False)
+    refresh_token = Column(String)
+    spotify_id = Column(String)
+    data = Column(JSONB)

@@ -20,3 +20,11 @@ class AppConfig(object):
 
     # support
     SUPPORT_EMAIL = os.getenv("OURFM_SUPPORT_EMAIL")
+
+    CLIENT_ID = os.getenv('OURFM_CLIENT_ID')
+    CLIENT_SECRET = os.getenv('OURFM_CLIENT_SECRET')
+    REDIRECT_URI = os.getenv('OURFM_REDIRECT_URI')
+
+    SCOPE = 'user-read-private user-read-email ugc-image-upload playlist-modify-public ' \
+            'playlist-read-private playlist-modify-private  user-library-read user-top-read ' \
+            'user-read-recently-played'

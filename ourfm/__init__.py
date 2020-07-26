@@ -28,7 +28,10 @@ def create_app(environment=None):
         # Blueprints
         from ourfm.data import models
         from ourfm.interfaces.api import v0
+        from ourfm.interfaces.web import register, user
         app.register_blueprint(v0.api_blueprint)
+        app.register_blueprint(register.register_blueprint)
+        app.register_blueprint(user.user_blueprint)
 
     return app
 
