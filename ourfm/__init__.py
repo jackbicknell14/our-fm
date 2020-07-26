@@ -7,6 +7,7 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 from flask import Flask
 from ourfm.data import db, migrate
 
+
 def create_app(environment=None):
 
     environment = 'development'
