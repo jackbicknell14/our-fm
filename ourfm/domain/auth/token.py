@@ -30,10 +30,7 @@ def get_refresh_token(authorization_code):
         'client_secret': CLIENT_SECRET
     }
     url = 'https://accounts.spotify.com/api/token'
-    logger.info(data)
     response = requests.post(url, data=data)
-    logger.info(response.url)
-    response.raise_for_status()
     data = response.json()
     refresh_token = data['refresh_token']
     return refresh_token
