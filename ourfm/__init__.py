@@ -1,9 +1,11 @@
 import config
 import logging
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 from flask import Flask
 from ourfm.data import db, migrate
-
 
 def create_app(environment=None):
 
@@ -23,6 +25,9 @@ def create_app(environment=None):
                           "%(message)s")
         handler.setFormatter(logging.Formatter(logging_format))
         logging.getLogger().addHandler(handler)
+
+        sentry_sdk.init(environment=app.config['SENTRY_ENV'],
+                        integrations=[FlaskIntegration(), SqlalchemyIntegration()])
         app.logger.setLevel(logging.INFO)
 
         # Blueprints

@@ -16,7 +16,7 @@ class AppConfig(object):
     # swagger
     SWAGGER_UI_DOC_EXPANSION = "list"
     SWAGGER_SUPPORTED_SUBMIT_METHODS = []  # disable 'Try it out' buttons
-
+    SENTRY_ENV = os.getenv('SENTRY_ENV', 'Not set')
     # support
     SUPPORT_EMAIL = os.getenv("OURFM_SUPPORT_EMAIL")
 
