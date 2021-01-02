@@ -1,7 +1,11 @@
 import os
 
 
-class AppConfig(object):
+class AppConfig:
+    # Celery
+
+    CELERY_BROKER_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+
     # flask
     SECRET_KEY = os.getenv('SECRET_KEY', 'SOME_SECRET_KEY')
 
@@ -24,6 +28,12 @@ class AppConfig(object):
     CLIENT_SECRET = os.environ['OURFM_CLIENT_SECRET']
     REDIRECT_URI = os.environ['OURFM_REDIRECT_URI']
 
-    SCOPE = 'user-read-private user-read-email ugc-image-upload playlist-modify-public ' \
-            'playlist-read-private playlist-modify-private  user-library-read user-top-read ' \
+    SCOPE = 'user-read-private ' \
+            'user-read-email ' \
+            'ugc-image-upload ' \
+            'playlist-modify-public ' \
+            'playlist-read-private ' \
+            'playlist-modify-private  ' \
+            'user-library-read ' \
+            'user-top-read ' \
             'user-read-recently-played'

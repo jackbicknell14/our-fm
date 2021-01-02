@@ -1,4 +1,6 @@
+from celery import Celery
 import config
+import os
 import logging
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -8,9 +10,12 @@ from flask import Flask
 from ourfm.data import db, migrate
 
 
-def create_app(environment=None):
+celery = Celery(__name__, broker=config.AppConfig.CELERY_BROKER_URL)
 
-    environment = 'development'
+
+def create_app(environment=None):
+    if environment is None:
+        environment = os.getenv('FLASK_ENV', 'production')
     # Step 2: App creation
     app = Flask(__name__, static_folder='assets')
     app.config.from_object(config.AppConfig)

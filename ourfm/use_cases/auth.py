@@ -1,5 +1,5 @@
 from ourfm.domain.auth import token
-from ourfm.domain.spotipy import users
+from ourfm.domain.spotify import users
 
 
 def get_url():

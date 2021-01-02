@@ -30,8 +30,10 @@ api = Api(restplus_api)
 
 from .check import Ok
 from .auth import Authorise, Callback
+from .playlist import PlaylistMonthAll
 
 legacy_api = restplus_api.namespace('', description='Legacy operations')
 resources.add(legacy_api, Ok, '/check/ok', endpoint='ok')
 resources.add(legacy_api, Authorise, '/auth', endpoint='auth')
 resources.add(legacy_api, Callback, '/auth/callback', endpoint='auth-callback')
+resources.add(legacy_api, PlaylistMonthAll, '/playlists/month/all', endpoint='create-all-monthly-playlists')
