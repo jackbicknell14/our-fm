@@ -45,12 +45,11 @@ def create(user, duration='month'):
             artists.append(artist)
 
         track_id = md.Track.b64_to_hex(playlist_track['track']['id'])
-        track = md.Track(id=track_id,
-                         name=playlist_track['track']['name'],
-                         artists=artists,
-                         details=str(playlist_track)).save()
-        md.PlaylistTrack(track_id=track.id, playlist_id=playlist_uuid,
-                         added_by=playlist_track['added_by']['href']).save()
+        track = md.Track.get_or_create(id=track_id, name=playlist_track['track']['name'])
+        if track.details is None:
+            track.update(artists=artists, details=str(playlist_track))
+        md.PlaylistTrack.get_or_create(track_id=track.id, playlist_id=playlist_uuid,
+                                       added_by=playlist_track['added_by']['href'])
 
 
 def get(playlist_id):
