@@ -17,8 +17,7 @@ celery.conf.update = {
 
 @celery.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(# crontab(minute='13', hour='30', day_of_month='3'),
-        30.0,
+    sender.add_periodic_task(crontab(minute='0', hour='0', day_of_month='4'),
                              create_monthly_playlists.s(),
                              name='create-monthly-playlists')
 
@@ -27,6 +26,6 @@ def setup_periodic_tasks(sender, **kwargs):
 def create_monthly_playlists():
     logging.info('Creating monthly playlists for all users.')
     playlists = spotify.create_playlists()
-    spotify.send_create_playlist_emails(playlists)
+#    spotify.send_create_playlist_emails(playlists)
 
 
