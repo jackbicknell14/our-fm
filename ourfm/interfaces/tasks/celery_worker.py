@@ -17,7 +17,7 @@ celery.conf.update = {
 
 @celery.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(10.0,
+    sender.add_periodic_task(30.0,
                              create_monthly_playlists.s(),
                              name='create-monthly-playlists')
 

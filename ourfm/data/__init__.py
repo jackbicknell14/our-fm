@@ -1,12 +1,24 @@
+import base64
 import flask_sqlalchemy
 import flask_migrate
 import sqlalchemy
+import uuid
 
 from ourfm import errors as of_errors
 
 
 class QueryMixin:
     """Mixins for models to add common operations."""
+
+    @property
+    def b64_id(self):
+        return base64.b64encode(self.id.bytes).decode()
+
+    @staticmethod
+    def b64_to_hex(b64_id):
+        padding = (24 - len(b64_id)) * '='
+        return uuid.UUID(base64.b64decode(b64_id + padding).hex())
+
     def save(self):
         db.session.add(self)
         db.session.commit()
