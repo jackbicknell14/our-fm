@@ -39,7 +39,7 @@ class Playlist(UUIDMixin, db.Model):
     __tablename__ = 'playlists'
 
     name = Column(String, nullable=False)
-    user_id = Column(String, nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
     details = Column(JSONB)
     track_total = Column(Integer)
 

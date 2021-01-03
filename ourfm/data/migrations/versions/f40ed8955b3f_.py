@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 20aa8d535bb9
+Revision ID: f40ed8955b3f
 Revises: d3f8a8d3d8fe
-Create Date: 2021-01-03 11:26:45.323139
+Create Date: 2021-01-03 13:03:09.381025
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '20aa8d535bb9'
+revision = 'f40ed8955b3f'
 down_revision = 'd3f8a8d3d8fe'
 branch_labels = None
 depends_on = None
@@ -28,16 +28,6 @@ def upgrade():
     sa.Column('popularity', sa.Integer(), nullable=True),
     sa.Column('uri', sa.String(), nullable=True),
     sa.Column('external_urls', sa.String(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('playlists',
-    sa.Column('created', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
-    sa.Column('updated', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
-    sa.Column('id', postgresql.UUID(as_uuid=True), server_default=sa.text('uuid_generate_v4()'), nullable=False),
-    sa.Column('name', sa.String(), nullable=False),
-    sa.Column('user_id', sa.String(), nullable=False),
-    sa.Column('details', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
-    sa.Column('track_total', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('tracks',
@@ -60,6 +50,18 @@ def upgrade():
     )
     op.create_index(op.f('ix_artisttracks_artist_id'), 'artisttracks', ['artist_id'], unique=False)
     op.create_index(op.f('ix_artisttracks_track_id'), 'artisttracks', ['track_id'], unique=False)
+    op.create_table('playlists',
+    sa.Column('created', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
+    sa.Column('id', postgresql.UUID(as_uuid=True), server_default=sa.text('uuid_generate_v4()'), nullable=False),
+    sa.Column('name', sa.String(), nullable=False),
+    sa.Column('user_id', postgresql.UUID(as_uuid=True), nullable=False),
+    sa.Column('details', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+    sa.Column('track_total', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_playlists_user_id'), 'playlists', ['user_id'], unique=False)
     op.create_table('playlisttracks',
     sa.Column('created', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
@@ -81,10 +83,11 @@ def downgrade():
     op.drop_index(op.f('ix_playlisttracks_track_id'), table_name='playlisttracks')
     op.drop_index(op.f('ix_playlisttracks_playlist_id'), table_name='playlisttracks')
     op.drop_table('playlisttracks')
+    op.drop_index(op.f('ix_playlists_user_id'), table_name='playlists')
+    op.drop_table('playlists')
     op.drop_index(op.f('ix_artisttracks_track_id'), table_name='artisttracks')
     op.drop_index(op.f('ix_artisttracks_artist_id'), table_name='artisttracks')
     op.drop_table('artisttracks')
     op.drop_table('tracks')
-    op.drop_table('playlists')
     op.drop_table('artists')
     # ### end Alembic commands ###

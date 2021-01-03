@@ -1,5 +1,4 @@
 import datetime
-import random
 
 from . import auth
 from ourfm.data import models as md
@@ -12,10 +11,10 @@ SPOTIFY_TIMES = {
 
 
 def create(user, duration='month'):
-    playlist_name = f'YourFM: {datetime.date.today().strftime("%B %Y")} [Test {random.randint(1, 100)}]'
+    playlist_name = f'YourFM: {datetime.date.today().strftime("%B %Y")}'
     sp = auth.login(user)
     sp_user = sp.current_user()
-    playlist = md.Playlist.get_or_create(name=playlist_name, user_id=sp_user['id'])
+    playlist = md.Playlist.get_or_create(name=playlist_name, user_id=user.id)
     if playlist.details is not None:
         return
     top_tracks = sp.current_user_top_tracks(time_range=SPOTIFY_TIMES[duration], limit=50)['items']
@@ -50,6 +49,8 @@ def create(user, duration='month'):
             track.update(artists=artists, details=str(playlist_track))
         md.PlaylistTrack.get_or_create(track_id=track.id, playlist_id=playlist_uuid,
                                        added_by=playlist_track['added_by']['href'])
+
+    return playlist
 
 
 def get(playlist_id):

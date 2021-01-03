@@ -17,6 +17,10 @@ class AppConfig:
     ERROR_404_HELP = False
     RESTPLUS_MASK_SWAGGER = False
 
+    # mailgun
+    MAILGUN_DOMAIN = os.environ['EMAIL_DOMAIN']
+    MAILGUN_API_KEY = os.environ['EMAIL_API_KEY']
+
     # swagger
     SWAGGER_UI_DOC_EXPANSION = "list"
     SWAGGER_SUPPORTED_SUBMIT_METHODS = []  # disable 'Try it out' buttons
