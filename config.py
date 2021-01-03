@@ -18,8 +18,8 @@ class AppConfig:
     RESTPLUS_MASK_SWAGGER = False
 
     # mailgun
-    MAILGUN_DOMAIN = os.environ['EMAIL_DOMAIN']
-    MAILGUN_API_KEY = os.environ['EMAIL_API_KEY']
+    MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']
+    MAILGUN_API_KEY = os.environ['MAILGUN_API_KEY']
 
     # swagger
     SWAGGER_UI_DOC_EXPANSION = "list"

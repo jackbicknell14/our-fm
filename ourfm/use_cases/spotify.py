@@ -28,7 +28,7 @@ def playlist_email(user_email, playlist_name):
     email.send(
         to=user_email,
         from_=f"OurFM <noreply@{app.config['MAILGUN_DOMAIN']}>",
-        subject=f"Your {playlist_name} playlist is ready!",
+        subject=f"{playlist_name} playlist is ready!",
         text_content=text_template,
         html_content=html_template,
     )
