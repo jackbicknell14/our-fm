@@ -32,3 +32,6 @@ def playlist_email(user_email, playlist_name):
         text_content=text_template,
         html_content=html_template,
     )
+
+
+def get_current_playing_track

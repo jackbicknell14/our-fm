@@ -11,7 +11,8 @@ SPOTIFY_TIMES = {
 
 
 def create(user, duration='month'):
-    playlist_name = f'YourFM: {datetime.date.today().strftime("%B %Y")}'
+    month = (datetime.date.today() - datetime.timedelta(30)).strftime("%B %Y")
+    playlist_name = f'YourFM: {month}'
     sp = auth.login(user)
     sp_user = sp.current_user()
     playlist = md.Playlist.get_or_create(name=playlist_name, user_id=user.id)
