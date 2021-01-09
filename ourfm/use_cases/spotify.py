@@ -34,4 +34,6 @@ def playlist_email(user_email, playlist_name):
     )
 
 
-def get_current_playing_track
+def get_current_playing_track():
+    pass
+
