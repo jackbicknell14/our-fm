@@ -10,6 +10,17 @@ SPOTIFY_TIMES = {
 }
 
 
+def rename(user_id, playlist_id, new_name):
+    user = md.User.get(id=user_id)
+    sp = auth.login(user)
+    sp_user = sp.current_user()
+    playlist = md.Playlist.get(id=playlist_id)
+    sp.user_playlist(user, playlist.spotify_id)
+    sp.user_playlist_change_details(sp_user, playlist.spotify_id, name=new_name)
+    playlist.update(name=new_name)
+    return playlist
+
+
 def create(user, duration='month'):
     month = (datetime.date.today() - datetime.timedelta(30)).strftime("%B %Y")
     playlist_name = f'YourFM: {month}'
@@ -45,7 +56,7 @@ def create(user, duration='month'):
             artists.append(artist)
 
         track_id = md.Track.b64_to_hex(playlist_track['track']['id'])
-        track = md.Track.get_or_create(id=track_id, name=playlist_track['track']['name'])
+        track = md.Track.get_or_create(spotify_id=playlist_track['id'])
         if track.details is None:
             track.update(artists=artists, details=str(playlist_track))
         md.PlaylistTrack.get_or_create(track_id=track.id, playlist_id=playlist_uuid,

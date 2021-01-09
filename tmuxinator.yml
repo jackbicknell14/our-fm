@@ -1,0 +1,37 @@
+# ./ourfm.yml
+
+name: ourfm
+root: ~/sandboxes/our-fm
+
+windows:
+  - ourfm:
+      layout: main-horizontal
+      # Synchronize all panes of this window, can be enabled before or after the pane commands run.
+      # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
+      # synchronize: after
+      panes:
+        - creds && git status
+        - creds && ipython --profile=ourfm
+        - creds && ptw --clear --nobeep --quiet -- --tb=no
+        - creds && flask run
+
+  - db: psql
+
+  - htop: htop
+
+  - jobs:
+     layout: main-vertical
+     panes:
+       - creds
+       - creds && redis-server
+       - creds && celery -A ourfm.interfaces.tasks.celery_worker.celery worker --loglevel=info
+       - creds && celery -A ourfm.interfaces.tasks.celery_worker.celery beat
+         --loglevel=INFO
+
+  - logs:
+     layout: even-horizontal
+     panes:
+        - creds && heroku logs --tail -a ourfm-production
+
+  - jupyter: cd ~/analytics && conda activate base
+

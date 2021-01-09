@@ -32,12 +32,14 @@ class AppConfig:
     CLIENT_SECRET = os.environ['OURFM_CLIENT_SECRET']
     REDIRECT_URI = os.environ['OURFM_REDIRECT_URI']
 
-    SCOPE = 'user-read-private ' \
-            'user-read-email ' \
-            'ugc-image-upload ' \
+    SCOPE = 'user-read-recently-played ' \
+            'user-read-playback-state ' \
+            'user-top-read ' \
+            'playlist-modify-private ' \
             'playlist-modify-public ' \
             'playlist-read-private ' \
-            'playlist-modify-private  ' \
-            'user-library-read ' \
-            'user-top-read ' \
-            'user-read-recently-played'
+            'playlist-read-collaborative ' \
+            'user-read-email ' \
+            'user-read-private ' \
+            'user-follow-read ' \
+            'user-follow-modify '

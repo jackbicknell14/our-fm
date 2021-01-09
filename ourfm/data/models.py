@@ -23,7 +23,7 @@ class Artist(UUIDMixin, db.Model):
 
 
 class ArtistTrack(UUIDMixin, db.Model):
-    __tablename__ = 'artisttracks'
+    __tablename__ = 'artist_tracks'
     artist_id = Column(UUID(as_uuid=True), ForeignKey('artists.id'), index=True, nullable=False)
     track_id = Column(UUID(as_uuid=True), ForeignKey('tracks.id'), index=True, nullable=False)
 
@@ -48,7 +48,7 @@ class Playlist(UUIDMixin, db.Model):
 
 
 class PlaylistTrack(UUIDMixin, db.Model):
-    __tablename__ = 'playlisttracks'
+    __tablename__ = 'playlist_tracks'
 
     track_id = Column(UUID(as_uuid=True), ForeignKey('tracks.id'), index=True, nullable=False)
     playlist_id = Column(UUID(as_uuid=True), ForeignKey('playlists.id'), index=True, nullable=False)
@@ -62,3 +62,20 @@ class User(UUIDMixin, db.Model):
     refresh_token = Column(String)
     spotify_id = Column(String)
     data = Column(JSONB)
+
+
+class UserTrack(UUIDMixin, db.Model):
+    __tablename__ = 'user_tracks'
+
+    track_id = Column(UUID(as_uuid=True), ForeignKey('tracks.id'), index=True, nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
+    device = Column(String)
+    shuffle_state = Column(String)
+    repeat_state = Column(String)
+    timestamp = Column(String)
+    context = Column(String)
+    progress_ms = Column(String)
+    item = Column(String)
+    currently_playing_type = Column(String)
+    actions = Column(String)
+    is_playing = Column(String)
