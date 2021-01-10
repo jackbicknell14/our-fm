@@ -49,6 +49,8 @@ def get_current_playing_tracks():
 
 def get_current_playing_track(user_id):
     track = spotify.users.get_current_track_for_user(user_id)
+    if track is None:
+        return None
     spotify.tracks.save_track(track['item'])
     current_track = spotify.users.save_current_track(track, user_id)
     return current_track
