@@ -68,9 +68,9 @@ class User(UUIDMixin, db.Model):
     refresh_token = Column(String)
     spotify_id = Column(String)
     data = Column(JSONB)
+    friends_added = relationship("User", secondary="friends", foreign_keys='Friend.from_user_id')
+    friends_accepted = relationship("User", secondary="friends", foreign_keys='Friend.to_user_id')
 
-    friends = relationship('Friend', backref='friends.from_user_id',primaryjoin='users.id==friends.from_user_id', lazy='dynamic')
-    
 
 class Friend(UUIDMixin, db.Model):
     __tablename__ = 'friends'
@@ -78,8 +78,11 @@ class Friend(UUIDMixin, db.Model):
     from_user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
     to_user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
 
-    from_user = relationship('User', foreign_keys='friends.from_user_id')
-    to_user = relationship('User', foreign_keys='friends.friend_id')
+    from_user = relationship("User", foreign_keys='Friend.from_user_id')
+    to_user = relationship("User", foreign_keys='Friend.to_user_id')
+
+
+
 
 
 class UserTrack(UUIDMixin, db.Model):

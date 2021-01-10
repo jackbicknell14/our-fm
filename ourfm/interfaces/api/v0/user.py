@@ -22,4 +22,4 @@ class UserFriend(Resource):
         user_id = request.form['user_id']
         friend_id = request.form['friend_id']
         friendship = users.add_friend(user_id=user_id, friend_id=friend_id)
-        return str(friendship.from_user.email + friendship.from_user.email)
+        return str(friendship.from_user_id) + ' ' + str(friendship.to_user_id)
