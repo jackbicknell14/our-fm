@@ -7,3 +7,5 @@ def save_new_user(email, refresh_token, spotify_id, data):
                 spotify_id=spotify_id,
                 data=data)
     return user
+
+
