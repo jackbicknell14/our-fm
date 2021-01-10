@@ -35,11 +35,7 @@ def create(user, duration='month'):
     top_tracks = sp.current_user_top_tracks(time_range=SPOTIFY_TIMES[duration], limit=5)['items']
 
     # save artists and tracks
-    playlist_tracks = []
-    for track in top_tracks:
-        track = track
-        track_artists = artists.save('track', track)
-        playlist_tracks.append(tracks.save(track, track_artists))
+    playlist_tracks = [tracks.save(track) for track in top_tracks]
 
     # create and save playlist
     sp_playlist = sp.user_playlist_create(sp_user['id'], playlist_name)
