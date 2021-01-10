@@ -23,7 +23,7 @@ def rename(user_id, playlist_id, new_name):
 
 
 def create(user, duration='month'):
-    month = (datetime.date.today() - datetime.timedelta(3)).strftime("%B %Y")
+    month = (datetime.date.today() - datetime.timedelta(30)).strftime("%B %Y")
     playlist_name = f'YourFM: {month}'
     sp = auth.login(user)
     sp_user = sp.current_user()
@@ -32,7 +32,7 @@ def create(user, duration='month'):
         return md.Playlist.get(name=playlist_name, user_id=user.id)
 
     # get top tracks
-    top_tracks = sp.current_user_top_tracks(time_range=SPOTIFY_TIMES[duration], limit=5)['items']
+    top_tracks = sp.current_user_top_tracks(time_range=SPOTIFY_TIMES[duration], limit=50)['items']
 
     # save artists and tracks
     playlist_tracks = [tracks.save_track(track) for track in top_tracks]
