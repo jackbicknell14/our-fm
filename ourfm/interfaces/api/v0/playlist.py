@@ -12,6 +12,12 @@ class Playlist(Resource):
         playlist = spotify.get_playlist(playlist_id=request.args['playlist_id'])
         return playlist.name
 
+    def post(self):
+        """create a playlist for user"""
+        user_id = request.form['user_id']
+        playlist = spotify.create_playlist(user_id=user_id)
+        return playlist.name
+
 
 class PlaylistMonthAll(Resource):
 

@@ -19,7 +19,7 @@ class Artist(UUIDMixin, db.Model):
     external_urls = Column(String)
     spotify_id = Column(String)
 
-    tracks = relationship("Track", secondary='artisttracks', back_populates='artists')
+    tracks = relationship("Track", secondary='artist_tracks', back_populates='artists')
 
 
 class ArtistTrack(UUIDMixin, db.Model):
@@ -33,7 +33,8 @@ class Track(UUIDMixin, db.Model):
     name = Column(String, nullable=False)
     details = Column(JSONB)
     spotify_id = Column(String)
-    artists = relationship("Artist", secondary='artisttracks', back_populates='tracks')
+    artists = relationship("Artist", secondary='artist_tracks', back_populates='tracks')
+    playlists = relationship("Playlist", secondary='playlist_tracks')
 
 
 class Playlist(UUIDMixin, db.Model):
@@ -46,6 +47,8 @@ class Playlist(UUIDMixin, db.Model):
     details = Column(JSONB)
     track_total = Column(Integer)
 
+    tracks = relationship("Track", secondary="playlist_tracks")
+
 
 class PlaylistTrack(UUIDMixin, db.Model):
     __tablename__ = 'playlist_tracks'
@@ -53,6 +56,9 @@ class PlaylistTrack(UUIDMixin, db.Model):
     track_id = Column(UUID(as_uuid=True), ForeignKey('tracks.id'), index=True, nullable=False)
     playlist_id = Column(UUID(as_uuid=True), ForeignKey('playlists.id'), index=True, nullable=False)
     added_by = Column(String)
+
+    track = relationship("Track", backref="playlists_association")
+    playlist = relationship("Playlist", backref="tracks_association")
 
 
 class User(UUIDMixin, db.Model):

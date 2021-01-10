@@ -1,4 +1,4 @@
-from . import playlists, users, auth
+from . import playlists, users, auth, artists, tracks
 
 
 

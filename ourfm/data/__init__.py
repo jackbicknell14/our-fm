@@ -44,6 +44,14 @@ class QueryMixin:
             raise of_errors.NoRecordExistsError(f'{cls.__class__}: {filters} does not exist')
 
     @classmethod
+    def exists(cls, **filters):
+        try:
+            cls.get(**filters)
+            return True
+        except of_errors.NoRecordExistsError:
+            return False
+
+    @classmethod
     def all(cls, **filters):
         return cls._filter(**filters).all()
 

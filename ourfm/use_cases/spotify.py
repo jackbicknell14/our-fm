@@ -5,9 +5,17 @@ from ourfm.data import models as md
 from ourfm.domain import spotify, email
 
 
+def create_playlist(user_id):
+    user = md.User.get(id=user_id)
+    playlist = spotify.playlists.create(user=user, duration='month')
+    return playlist
+
+
 def create_playlists():
     users = md.User.all()
     playlists = [spotify.playlists.create(user=user, duration='month') for user in users]
+    spotify.artists.save(method='playlist')
+    spotify.tracks.save('playlist')
     return playlists
 
 
@@ -36,4 +44,3 @@ def playlist_email(user_email, playlist_name):
 
 def get_current_playing_track():
     pass
-
