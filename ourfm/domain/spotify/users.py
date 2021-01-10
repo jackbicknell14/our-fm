@@ -1,9 +1,11 @@
+from flask import current_app as app
 import spotipy
 
 from . import auth
 from ourfm.data import models as md
 from ourfm.domain.users import operations
 
+logger = app.logger
 
 def save_new_user(access_token, refresh_token):
     sp = spotipy.Spotify(auth=access_token)
@@ -18,7 +20,11 @@ def save_new_user(access_token, refresh_token):
 def get_current_track_for_user(user_id):
     user = md.User.get(id=user_id)
     sp = auth.login(user)
-    return sp.current_playback()
+    try:
+        track = sp.current_playback()
+        return track
+    except spotipy.SpotifyException as e:
+        logger.info(f'Need to update permissions for {user.email}')
 
 
 def save_current_track(track, user_id):

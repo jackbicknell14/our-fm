@@ -5,6 +5,9 @@ from ourfm.data import models as md
 from ourfm.domain import spotify, email
 
 
+logger = app.logger
+
+
 def create_playlist(user_id):
     user = md.User.get(id=user_id)
     playlist = spotify.playlists.create(user=user, duration='month')
@@ -51,6 +54,7 @@ def get_current_playing_track(user_id):
     track = spotify.users.get_current_track_for_user(user_id)
     if track is None:
         return None
+    logger.info(f'{track["item"]["name"]} collected for {user_id}')
     spotify.tracks.save_track(track['item'])
     current_track = spotify.users.save_current_track(track, user_id)
     return current_track
