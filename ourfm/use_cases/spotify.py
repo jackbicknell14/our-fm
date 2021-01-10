@@ -15,7 +15,7 @@ def create_playlists():
     users = md.User.all()
     playlists = [spotify.playlists.create(user=user, duration='month') for user in users]
 
-    spotify.tracks.save('playlist')
+    spotify.tracks.save_track('playlist')
     return playlists
 
 
@@ -43,9 +43,12 @@ def playlist_email(user_email, playlist_name):
 
 
 def get_current_playing_tracks():
-    pass
+    for user in md.User.all():
+        get_current_playing_track(user.id)
 
 
 def get_current_playing_track(user_id):
     track = spotify.users.get_current_track_for_user(user_id)
-
+    spotify.tracks.save_track(track['item'])
+    current_track = spotify.users.save_current_track(track, user_id)
+    return current_track

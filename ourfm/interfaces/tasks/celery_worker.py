@@ -21,6 +21,11 @@ def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(crontab(minute='0', hour='0', day_of_month='4'),
                              create_monthly_playlists.s(),
                              name='create-monthly-playlists')
+
+    sender.add_periodic_task(crontab(minute='*'),
+                             update_user_playing_track.s(),
+                             name='update-user-playing-tracks')
+
     sender.add_periodic_task(crontab(minute='*'),
                              minute_ping.s(),
                              name='minute-ping')
@@ -30,13 +35,12 @@ def setup_periodic_tasks(sender, **kwargs):
 def create_monthly_playlists():
     logging.info('Creating monthly playlists for all users.')
     playlists = spotify.create_playlists()
-
-
 #    spotify.send_create_playlist_emails(playlists)
+
 
 @celery.task
 def update_user_playing_track():
-    logging.info('Updating currently_playing_track_for_user')
+    logging.info('Updating currently playing track for user')
     spotify.get_current_playing_tracks()
 
 
