@@ -74,7 +74,6 @@ class User(UUIDMixin, db.Model):
 
 class Friend(UUIDMixin, db.Model):
     __tablename__ = 'friends'
-
     from_user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
     to_user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
 
