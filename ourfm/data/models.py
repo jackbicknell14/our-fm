@@ -1,5 +1,5 @@
 from sqlalchemy.dialects.postgresql import JSON, UUID, JSONB, ARRAY
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, composite
 from sqlalchemy.sql.expression import text as sqlalchemy_text
 from sqlalchemy.sql import func, expression
 from sqlalchemy.sql.schema import Column, ForeignKey, Index
@@ -72,16 +72,35 @@ class User(UUIDMixin, db.Model):
     friends_accepted = relationship("User", secondary="friends", foreign_keys='Friend.to_user_id')
 
 
+class Friendship(object):
+    def __init__(self, user1, user2):
+        self.users = sorted([str(user1), str(user2)])
+        self.user1, self.user2 = self.users
+
+    def __composite_values__(self):
+        return '-'.join(self.users)
+
+    def __repr__(self):
+        return  '-'.join(self.users)
+
+    def __eq__(self, other):
+        return isinstance(other, Friendship) and \
+            other.user1 == self.user1 and \
+            other.user2 == self.user2
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+
 class Friend(UUIDMixin, db.Model):
     __tablename__ = 'friends'
     from_user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
     to_user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
 
+    #     rel = column_property('-'.join(sorted([str(from_user_id), str(to_user_id)])))
+    friendship = composite(Friendship, from_user_id, to_user_id)
     from_user = relationship("User", foreign_keys='Friend.from_user_id')
     to_user = relationship("User", foreign_keys='Friend.to_user_id')
-
-
-
 
 
 class UserTrack(UUIDMixin, db.Model):
