@@ -32,3 +32,11 @@ class GroupUser(Resource):
         """Returns all users for a group"""
         group_id = request.form['group_id']
         return str(groups.get_users(group_id=group_id))
+
+
+class GroupPlaylist(Resource):
+
+    def post(self):
+        """Creates a playlist for a group"""
+        group_id = request.form['group_id']
+        return groups.create_playlist(group_id)

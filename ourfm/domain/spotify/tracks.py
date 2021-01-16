@@ -12,3 +12,7 @@ def save_track(track):
                     name=track['name'],
                     details=str(track),
                     artists=track_artists).save()
+
+
+def save_all(sp_tracks):
+    return [save_track(track) for track in sp_tracks]

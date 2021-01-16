@@ -1,6 +1,6 @@
 import datetime
 
-from . import auth, artists, tracks
+from . import auth, artists, tracks, users
 from ourfm import errors
 from ourfm.data import models as md
 
@@ -22,24 +22,20 @@ def rename(user_id, playlist_id, new_name):
     return playlist
 
 
-def create(user, duration='month'):
+def get_your_fm_name():
     month = (datetime.date.today() - datetime.timedelta(30)).strftime("%B %Y")
     playlist_name = f'YourFM: {month}'
+    return playlist_name
+
+
+def create(user_id, playlist_name, tracks_to_add):
+    # create and save playlist
+    user = md.User.get(id=user_id)
     sp = auth.login(user)
     sp_user = sp.current_user()
-
-    if md.Playlist.exists(name=playlist_name, user_id=user.id):
-        return md.Playlist.get(name=playlist_name, user_id=user.id)
-
-    # get top tracks
-    top_tracks = sp.current_user_top_tracks(time_range=SPOTIFY_TIMES[duration], limit=50)['items']
-
-    # save artists and tracks
-    playlist_tracks = [tracks.save_track(track) for track in top_tracks]
-
-    # create and save playlist
+    playlist_tracks = tracks.save_all(tracks_to_add)
     sp_playlist = sp.user_playlist_create(sp_user['id'], playlist_name)
-    sp.user_playlist_add_tracks(sp_user['id'], sp_playlist['id'], [t['id'] for t in top_tracks])
+    sp.user_playlist_add_tracks(sp_user['id'], sp_playlist['id'], [t['id'] for t in tracks_to_add])
     sp_playlist = sp.user_playlist(sp_user, sp_playlist['id'])
     sp_tracks = sp.user_playlist_tracks(user, playlist_id=sp_playlist['id'])
 

@@ -4,22 +4,22 @@ import os
 from ourfm.data import models as md
 from ourfm.domain import spotify, email
 
-
 logger = app.logger
 
 
-def create_playlist(user_id):
-    user = md.User.get(id=user_id)
-    playlist = spotify.playlists.create(user=user, duration='month')
+def create_user_month_playlist(user_id, duration='month', total=50):
+    playlist_name = spotify.playlists.get_your_fm_name()
+    if md.Playlist.exists(name=playlist_name, user_id=user_id):
+        return md.Playlist.get(name=playlist_name, user_id=user_id)
+
+    tracks = spotify.users.get_top_tracks(user_id=user_id, duration=duration, total=total)
+    playlist = spotify.playlists.create(user_id=user_id, playlist_name=playlist_name, tracks_to_add=tracks)
     return playlist
 
 
 def create_playlists():
     users = md.User.all()
-    playlists = [spotify.playlists.create(user=user, duration='month') for user in users]
-
-    spotify.tracks.save_track('playlist')
-    return playlists
+    return [create_user_month_playlist(user=user, duration='month', total=50) for user in users]
 
 
 def get_playlist(playlist_id):

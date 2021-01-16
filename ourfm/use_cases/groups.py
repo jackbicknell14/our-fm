@@ -1,4 +1,4 @@
-from ourfm.domain import groups
+from ourfm.domain import groups, spotify
 
 
 def create(user_id, group_name):
@@ -19,3 +19,10 @@ def add_user(group_id, user_id):
 
 def get_users(group_id):
     return groups.get_all_users(group_id)
+
+
+def create_playlist(group_id):
+    group = groups.operations.get(group_id)
+    users = groups.get_all_users(group_id)
+    for user in users:
+        spotify.users.get_top_tracks(user_id=user.id, duration='month', total=10)

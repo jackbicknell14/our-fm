@@ -1,7 +1,6 @@
 from flask_restplus import Resource
 from flask import current_app as app, redirect, request, url_for
-from ourfm.use_cases import auth
-from ourfm.domain import spotify
+from ourfm.use_cases import auth, spotify
 logger = app.logger
 
 
@@ -16,5 +15,5 @@ class Callback(Resource):
     def get(self):
         authorization_code = request.args['code']
         user = auth.get_refresh_token(authorization_code=authorization_code)
-        spotify.playlists.create(user=user, duration='month')
+        spotify.create_user_month_playlist(user=user, duration='month')
         return redirect(url_for('user_blueprint.profile'))

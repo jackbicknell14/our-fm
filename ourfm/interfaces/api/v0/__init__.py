@@ -30,7 +30,7 @@ api = Api(restplus_api)
 
 from .check import Ok
 from .auth import Authorise, Callback
-from .groups import Group, GroupUser
+from .groups import Group, GroupUser, GroupPlaylist
 from .playlist import PlaylistMonthAll, Playlist
 from .user import UserTrackCurrent, UserFriend
 
@@ -44,4 +44,5 @@ resources.add(legacy_api, UserTrackCurrent, '/user/current', endpoint='save-curr
 resources.add(legacy_api, UserFriend, '/user/friend', endpoint='user-friend')
 resources.add(legacy_api, Group, '/group', endpoint='group')
 resources.add(legacy_api, GroupUser, '/group/user', endpoint='group-user')
+resources.add(legacy_api, GroupPlaylist, '/group/playlist', endpoint='group-playlist')
 
