@@ -9,3 +9,6 @@ def save_new_user(email, refresh_token, spotify_id, data):
     return user
 
 
+def friendship(user_1_id, user_2_id):
+    md.Friend.get_or_create(user_id=user_1_id, friend_id=user_2_id)
+    md.Friend.get_or_create(user_id=user_2_id, friend_id=user_1_id)
