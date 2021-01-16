@@ -55,7 +55,7 @@ class PlaylistTrack(UUIDMixin, db.Model):
 
     track_id = Column(UUID(as_uuid=True), ForeignKey('tracks.id'), index=True, nullable=False)
     playlist_id = Column(UUID(as_uuid=True), ForeignKey('playlists.id'), index=True, nullable=False)
-    added_by = Column(String)
+    added_by = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
 
     track = relationship("Track", backref="playlists_association")
     playlist = relationship("Playlist", backref="tracks_association")

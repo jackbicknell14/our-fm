@@ -24,5 +24,7 @@ def get_users(group_id):
 def create_playlist(group_id):
     group = groups.operations.get(group_id)
     users = groups.get_all_users(group_id)
+    to_add = []
     for user in users:
-        spotify.users.get_top_tracks(user_id=user.id, duration='month', total=10)
+        tracks = spotify.users.get_top_tracks(user_id=user.id, duration='month', total=10)
+        to_add.append((user.id, tracks))
