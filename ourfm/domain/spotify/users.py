@@ -15,11 +15,9 @@ SPOTIFY_TIMES = {
 
 
 def get_top_tracks(user_id, duration='month', total=10):
-    user = md.User.get(user_id)
+    user = md.User.get(id=user_id)
     sp = auth.login(user)
-
-    top_tracks = sp.current_user_top_tracks(time_range=SPOTIFY_TIMES[duration], limit=total)['items']
-    return tracks.save_all(top_tracks)
+    return sp.current_user_top_tracks(time_range=SPOTIFY_TIMES[duration], limit=total)['items']
 
 
 def save_new_user(access_token, refresh_token):

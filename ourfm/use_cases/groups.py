@@ -2,7 +2,9 @@ from ourfm.domain import groups, spotify
 
 
 def create(user_id, group_name):
-    return groups.operations.create(user_id, group_name)
+    group = groups.operations.create(user_id, group_name)
+    return spotify.playlists.create(user_id=user_id, playlist_name=group.name, public=False,
+                                    collaborative=True, description=f'OurFM: {group.name}', group_id=group.id)
 
 
 def get(group_id):
@@ -18,13 +20,14 @@ def add_user(group_id, user_id):
 
 
 def get_users(group_id):
-    return groups.get_all_users(group_id)
+    return groups.get_id_for_all_users(group_id)
 
 
 def create_playlist(group_id):
-    group = groups.operations.get(group_id)
-    users = groups.get_all_users(group_id)
-    to_add = []
-    for user in users:
-        tracks = spotify.users.get_top_tracks(user_id=user.id, duration='month', total=10)
-        to_add.append((user.id, tracks))
+    playlist = groups.operations.get_playlist(group_id)
+    users_id = groups.get_id_for_all_users(group_id)
+    for user_id in users_id:
+        top_tracks = spotify.users.get_top_tracks(user_id=user_id, duration='month', total=10)
+        top_tracks = spotify.tracks.save_all(top_tracks)
+        spotify.playlists.add_tracks(user_id=user_id, playlist_id=playlist.id, tracks_to_add=top_tracks)
+

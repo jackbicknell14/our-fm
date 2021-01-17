@@ -12,8 +12,10 @@ def create_user_month_playlist(user_id, duration='month', total=50):
     if md.Playlist.exists(name=playlist_name, user_id=user_id):
         return md.Playlist.get(name=playlist_name, user_id=user_id)
 
-    tracks = spotify.users.get_top_tracks(user_id=user_id, duration=duration, total=total)
-    playlist = spotify.playlists.create(user_id=user_id, playlist_name=playlist_name, tracks_to_add=tracks)
+    top_tracks = spotify.users.get_top_tracks(user_id=user_id, duration=duration, total=total)
+    top_tracks = spotify.tracks.save_all(top_tracks)
+    playlist = spotify.playlists.create(user_id=user_id, playlist_name=playlist_name)
+    playlist = spotify.playlists.add_tracks(user_id=user_id, playlist_id=playlist.id, tracks_to_add=top_tracks)
     return playlist
 
 

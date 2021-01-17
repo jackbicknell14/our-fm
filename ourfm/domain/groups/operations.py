@@ -13,3 +13,7 @@ def get(group_id):
 
 def add_user(group_id, user_id):
     return md.GroupUser.create(group_id=group_id, user_id=user_id)
+
+
+def get_playlist(group_id):
+    return md.Playlist.get(group_id=group_id)

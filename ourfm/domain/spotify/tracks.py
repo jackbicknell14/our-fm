@@ -14,5 +14,5 @@ def save_track(track):
                     artists=track_artists).save()
 
 
-def save_all(sp_tracks):
-    return [save_track(track) for track in sp_tracks]
+def save_all(tracks_to_save):
+    return [save_track(track) for track in tracks_to_save]

@@ -28,26 +28,47 @@ def get_your_fm_name():
     return playlist_name
 
 
-def create(user_id, playlist_name, tracks_to_add):
+def create(user_id, playlist_name, public=True, collaborative=False, description='OurFM playlist', group_id=None):
     # create and save playlist
     user = md.User.get(id=user_id)
     sp = auth.login(user)
-    sp_user = sp.current_user()
-    playlist_tracks = tracks.save_all(tracks_to_add)
-    sp_playlist = sp.user_playlist_create(sp_user['id'], playlist_name)
-    sp.user_playlist_add_tracks(sp_user['id'], sp_playlist['id'], [t['id'] for t in tracks_to_add])
-    sp_playlist = sp.user_playlist(sp_user, sp_playlist['id'])
-    sp_tracks = sp.user_playlist_tracks(user, playlist_id=sp_playlist['id'])
+    data = {"name": playlist_name, "public": public, "description": description, "collaborative": collaborative}
+    sp_playlist = sp._post(f"users/{user.spotify_id}/playlists", payload=data)
+    return md.Playlist.create(name=playlist_name,
+                              user_id=user.id,
+                              spotify_id=sp_playlist['id'],
+                              track_total=0,
+                              details=sp_playlist,
+                              group_id=group_id)
 
+
+def add_tracks(user_id, playlist_id, tracks_to_add):
+    user = md.User.get(id=user_id)
+    playlist = md.Playlist.get(id=playlist_id)
+    sp = auth.login(user)
+
+    # if track already exists in playlist then skip
+    tracks_to_add = [track for track in tracks_to_add if
+                     not md.PlaylistTrack.exists(playlist_id=playlist_id, track_id=track.id, added_by=user_id)]
+    if not tracks_to_add:
+        return playlist
+
+    # add tracks to playlist
+    sp.user_playlist_add_tracks(user=user.spotify_id,
+                                playlist_id=playlist.spotify_id, tracks=[t.spotify_id for t in tracks_to_add])
+
+    # get updated playlist tracks
+    sp_tracks = sp.user_playlist_tracks(user=user.spotify_id, playlist_id=playlist.spotify_id)
     if sp_tracks['next'] is not None:
         return ValueError('Next to fix pagination for this playlist')
 
-    playlist = md.Playlist.create(name=playlist_name,
-                                  user_id=user.id,
-                                  spotify_id=sp_playlist['id'],
-                                  track_total=len(sp_tracks['items']),
-                                  details=sp_playlist,
-                                  tracks=playlist_tracks)
+    # record tracks added in database
+    for track in tracks_to_add:
+        md.PlaylistTrack.get_or_create(track_id=track.id, playlist_id=playlist_id, added_by=user_id)
+
+    sp_playlist = sp.user_playlist(user=user.spotify_id, playlist_id=playlist.spotify_id)
+    playlist.update(track_total=len(sp_tracks['items']),
+                    details=sp_playlist)
 
     return playlist
 

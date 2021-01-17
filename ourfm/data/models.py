@@ -42,6 +42,7 @@ class Playlist(UUIDMixin, db.Model):
 
     name = Column(String, nullable=False)
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
+    group_id = Column(UUID(as_uuid=True), ForeignKey('groups.id'), index=True, nullable=True)
     spotify_id = Column(String)
 
     details = Column(JSONB)
