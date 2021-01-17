@@ -1,9 +1,22 @@
 from flask_restplus import Resource
-from flask import current_app as app, request
+from flask import current_app as app, request, render_template
 
+from ourfm.data import models as md
 from ourfm.use_cases import spotify, users
 
 logger = app.logger
+
+
+class User(Resource):
+
+    def get(self):
+        user = md.User.get(email='jackbicknell@live.co.uk')
+        return render_template('user.html', page='User', user=user)
+
+    def post(self):
+        print(request.form)
+        user = md.User.get(email='jackbicknell@live.co.uk')
+        return render_template('user.html', page='User', user=user)
 
 
 class UserTrackCurrent(Resource):

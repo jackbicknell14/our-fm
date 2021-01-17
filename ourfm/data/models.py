@@ -66,9 +66,14 @@ class User(UUIDMixin, db.Model):
     __tablename__ = 'users'
 
     email = Column(String, nullable=False, unique=True, index=True)
+    alternative_email = Column(String)
     refresh_token = Column(String)
     spotify_id = Column(String)
+    username = Column(String)
+    city = Column(String)
+    country = Column(String)
     data = Column(JSONB)
+    status = Column(String)
 
 
 class Friend(UUIDMixin, db.Model):
