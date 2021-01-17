@@ -45,7 +45,9 @@ def create(user_id, playlist_name, public=True, collaborative=False, description
 def add_tracks(user_id, playlist_id, tracks_to_add):
     user = md.User.get(id=user_id)
     playlist = md.Playlist.get(id=playlist_id)
-    sp = auth.login(user)
+
+    owner = md.User.get(id=playlist.user_id)
+    sp = auth.login(owner)
 
     # if track already exists in playlist then skip
     tracks_to_add = [track for track in tracks_to_add if
@@ -54,9 +56,8 @@ def add_tracks(user_id, playlist_id, tracks_to_add):
         return playlist
 
     # add tracks to playlist
-    sp.user_playlist_add_tracks(user=user.spotify_id,
+    sp.user_playlist_add_tracks(user=owner.id,
                                 playlist_id=playlist.spotify_id, tracks=[t.spotify_id for t in tracks_to_add])
-
     # get updated playlist tracks
     sp_tracks = sp.user_playlist_tracks(user=user.spotify_id, playlist_id=playlist.spotify_id)
     if sp_tracks['next'] is not None:

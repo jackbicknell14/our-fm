@@ -10,3 +10,7 @@ def is_user_member(group_id, user_id):
 def get_id_for_all_users(group_id):
     users = md.GroupUser.all(group_id=group_id)
     return [i.user_id for i in users]
+
+
+def get_id_for_all_playlists(group_id):
+    return md.Playlist.all(group_id=group_id)
