@@ -15,5 +15,4 @@ class Callback(Resource):
     def get(self):
         authorization_code = request.args['code']
         user = auth.get_refresh_token(authorization_code=authorization_code)
-        spotify.create_user_month_playlist(user=user, duration='month')
-        return redirect(url_for('user_blueprint.profile'))
+        return redirect(url_for('user_blueprint.welcome', user_id=user.id))

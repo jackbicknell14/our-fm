@@ -4,6 +4,7 @@
 <div>
     <div id="login">
           <img src="{{url_for('static', filename='celebrate.gif')}}" alt="celebrate" />
+            <a href="{{url_for('user_blueprint.profile') + '?user_id=' + request.args['user_id']}}">Profile</a>
     </div>
 
 </div>

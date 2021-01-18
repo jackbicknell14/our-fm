@@ -10,13 +10,10 @@ logger = app.logger
 class User(Resource):
 
     def get(self):
-        user = md.User.get(email='jackbicknell@live.co.uk')
-        return render_template('user.html', page='User', user=user)
+        return users.get(user_id=request.args['user_id'])
 
     def post(self):
-        print(request.form)
-        user = md.User.get(email='jackbicknell@live.co.uk')
-        return render_template('user.html', page='User', user=user)
+        return users.register(email=request.form['email'])
 
 
 class UserTrackCurrent(Resource):

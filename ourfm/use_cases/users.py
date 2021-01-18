@@ -14,3 +14,5 @@ def add_friend(user_id, friend_id):
     return friend.id
 
 
+def get(user_id):
+    return md.User.get(id=user_id).__dict__
