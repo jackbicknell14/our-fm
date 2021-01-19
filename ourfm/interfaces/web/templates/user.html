@@ -23,17 +23,11 @@
         <div class="sidebar" data-color="blue">
             <div class="sidebar-wrapper">
                 <div class="logo">
-                    <a href="http://www.creative-tim.com" class="simple-text">
+                    <a href="http://www.our-fm.com" class="simple-text">
                         OurFM
                     </a>
                 </div>
                 <ul class="nav">
-                    <li>
-                        <a class="nav-link" href="../../../assets/bootstrap/examples/dashboard.html">
-                            <i class="nc-icon nc-chart-pie-35"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="./user.html">
                             <i class="nc-icon nc-circle-09"></i>
@@ -41,19 +35,19 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="../../../assets/bootstrap/examples/table.html">
+                        <a class="nav-link" href="{{url_for('user_blueprint.friends') + '?user_id=' + request.args['user_id']}}">
                             <i class="nc-icon nc-notes"></i>
                             <p>Friends</p>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="../../../assets/bootstrap/examples/typography.html">
+                        <a class="nav-link" href="{{url_for('user_blueprint.groups') + '?user_id=' + request.args['user_id']}}">
                             <i class="nc-icon nc-paper-2"></i>
                             <p>Groups</p>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="../../../assets/bootstrap/examples/icons.html">
+                        <a class="nav-link" href="{{url_for('user_blueprint.playlists') + '?user_id=' + request.args['user_id']}}">
                             <i class="nc-icon nc-atom"></i>
                             <p>Playlists</p>
                         </a>

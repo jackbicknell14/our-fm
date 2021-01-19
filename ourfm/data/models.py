@@ -84,13 +84,16 @@ class Friend(UUIDMixin, db.Model):
     friend_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
 
 
-
 class Group(UUIDMixin, db.Model):
     __tablename__ = 'groups'
 
     name = Column(String, nullable=False)
     is_private = Column(Boolean, server_default=expression.true(), nullable=False)
     created_by = Column(UUID(as_uuid=True), ForeignKey('users.id'), index=True, nullable=False)
+
+    @property
+    def members(self):
+        return [User.get(id=i.user_id) for i in GroupUser.all(group_id=self.id)]
 
 
 class GroupUser(UUIDMixin, db.Model):

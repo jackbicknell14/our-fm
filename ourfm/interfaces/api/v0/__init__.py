@@ -32,7 +32,7 @@ from .check import Ok
 from .auth import Authorise, Callback
 from .groups import Group, GroupUser, GroupPlaylist
 from .playlist import PlaylistMonthAll, Playlist
-from .user import UserTrackCurrent, UserFriend, User
+from .user import UserTrackCurrent, UserFriend, User, UserGroup, UserPlaylist
 
 legacy_api = restplus_api.namespace('', description='Legacy operations')
 resources.add(legacy_api, Ok, '/check/ok', endpoint='ok')
@@ -43,6 +43,8 @@ resources.add(legacy_api, Playlist, '/playlist', endpoint='get-single-playlist')
 resources.add(legacy_api, UserTrackCurrent, '/user/current', endpoint='save-current-user-track')
 resources.add(legacy_api, User, '/user', endpoint='user-data')
 resources.add(legacy_api, UserFriend, '/user/friend', endpoint='user-friend')
+resources.add(legacy_api, UserGroup, '/user/group', endpoint='user-groups')
+resources.add(legacy_api, UserPlaylist, '/user/playlist', endpoint='user-playlist')
 resources.add(legacy_api, Group, '/group', endpoint='group')
 resources.add(legacy_api, GroupUser, '/group/user', endpoint='group-user')
 resources.add(legacy_api, GroupPlaylist, '/group/playlist', endpoint='group-playlist')

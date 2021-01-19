@@ -1,0 +1,9 @@
+{% for group in groups %}
+<p> {{group['name']}}</p>
+<p> {{group['is_private']}}</p>
+<p> {{group['created_by']}}</p>
+<p> {{group['status']}}</p>
+{% for member in group['members'] %}
+<p> {{member['username']}}</p>
+{% endfor %}
+{% endfor %}
