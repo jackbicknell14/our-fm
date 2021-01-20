@@ -1,5 +1,31 @@
-{% for playlist in playlists %}
-<p> {{playlist['name']}}</p>
-<p> {{playlist['tracks_total']}}</p>
-<p> {{playlist['group']}}</p>
-{% endfor %}
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Your playlists</h4>
+                </div>
+                <div class="card-body all-icons">
+                    <div class="row">
+                        {% for playlist in playlists %}
+                        <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-6">
+                            <div class="font-icon-detail">
+                                <p> {{playlist['name']}}</p>
+                                <p> {{playlist['tracks_total']}}</p>
+                                <p> {{playlist['group']}}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

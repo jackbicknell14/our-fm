@@ -1,6 +1,32 @@
-{% for friend in friends %}
-<p> {{friend['username']}}</p>
-<p> {{friend['city']}}</p>
-<p> {{friend['country']}}</p>
-<p> {{friend['status']}}</p>
-{% endfor %}
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Your friends</h4>
+                </div>
+                <div class="card-body all-icons">
+                    <div class="row">
+                        {% for friend in friends %}
+                        <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-6">
+                            <div class="font-icon-detail">
+                                <p> {{friend['username']}}</p>
+                                <p> {{friend['city']}}</p>
+                                <p> {{friend['country']}}</p>
+                                <p> {{friend['status']}}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

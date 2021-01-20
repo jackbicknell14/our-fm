@@ -1,9 +1,35 @@
-{% for group in groups %}
-<p> {{group['name']}}</p>
-<p> {{group['is_private']}}</p>
-<p> {{group['created_by']}}</p>
-<p> {{group['status']}}</p>
-{% for member in group['members'] %}
-<p> {{member['username']}}</p>
-{% endfor %}
-{% endfor %}
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Your groups</h4>
+                </div>
+                <div class="card-body all-icons">
+                    <div class="row">
+                        {% for group in groups %}
+                        <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-6">
+                            <div class="font-icon-detail">
+                                <p> {{group['name']}}</p>
+                                <p> {{group['is_private']}}</p>
+                                <p> {{group['created_by']}}</p>
+                                <p> {{group['status']}}</p>
+                                {% for member in group['members'] %}
+                                <p> {{member['username']}}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
