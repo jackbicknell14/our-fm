@@ -49,5 +49,5 @@ resources.add(base_api, UserPlaylist, '/user/playlist', endpoint='user-playlist'
 resources.add(base_api, Group, '/group', endpoint='group')
 resources.add(base_api, GroupUser, '/group/user', endpoint='group-user')
 resources.add(base_api, GroupPlaylist, '/group/playlist', endpoint='group-playlist')
-resources.add(base_api, Tracks, 'tracks/all/now', endpoint='get-all-tracks-right-now')
+resources.add(base_api, Tracks, '/tracks/all/now', endpoint='get-all-tracks-right-now')
 
