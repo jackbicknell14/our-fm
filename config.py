@@ -10,7 +10,7 @@ class AppConfig:
     SECRET_KEY = os.getenv('SECRET_KEY', 'SOME_SECRET_KEY')
 
     # database
-    SQLALCHEMY_DATABASE_URI = os.environ["OURFM_DB_URL"]
+    SQLALCHEMY_DATABASE_URI = os.environ["DATABASE_URL"]
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # flask restplus
