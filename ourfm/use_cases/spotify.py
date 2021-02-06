@@ -21,7 +21,7 @@ def create_user_month_playlist(user_id, duration='month', total=50):
 
 def create_playlists():
     users = md.User.all()
-    return [create_user_month_playlist(user=user, duration='month', total=50) for user in users]
+    return [create_user_month_playlist(user_id=user.id, duration='month', total=50) for user in users]
 
 
 def get_playlist(playlist_id):
