@@ -56,8 +56,8 @@ def add_tracks(user_id, playlist_id, tracks_to_add):
         return playlist
 
     # add tracks to playlist
-    sp.user_playlist_add_tracks(user=owner.id,
-                                playlist_id=playlist.spotify_id, tracks=[t.spotify_id for t in tracks_to_add])
+    sp.user_playlist_replace_tracks(user=owner.id,
+                                    playlist_id=playlist.spotify_id, tracks=[t.spotify_id for t in tracks_to_add])
     # get updated playlist tracks
     sp_tracks = sp.user_playlist_tracks(user=user.spotify_id, playlist_id=playlist.spotify_id)
     if sp_tracks['next'] is not None:
@@ -72,6 +72,14 @@ def add_tracks(user_id, playlist_id, tracks_to_add):
                     details=sp_playlist)
 
     return playlist
+
+
+def clear_playlist(user_id, playlist_id):
+    user = md.User.get(id=user_id)
+    playlist = md.Playlist.get(id=playlist_id)
+
+    owner = md.User.get(id=playlist.user_id)
+    sp = auth.login(owner)
 
 
 def get(playlist_id):
