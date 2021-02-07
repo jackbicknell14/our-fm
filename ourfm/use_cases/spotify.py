@@ -25,7 +25,7 @@ def create_playlists():
     users, group_models = md.User.all(), md.Group.all()
     [create_user_month_playlist(user_id=user.id, duration='month', total=50) for user in users]
     [groups.create_playlist(group.id) for group in group_models]
-    
+
 
 def get_playlist(playlist_id):
     return spotify.playlists.get(playlist_id)

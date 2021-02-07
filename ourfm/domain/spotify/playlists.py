@@ -24,7 +24,7 @@ def rename(user_id, playlist_id, new_name):
 
 def get_your_fm_name():
     month = (datetime.date.today() - datetime.timedelta(30)).strftime("%B %Y")
-    playlist_name = f'YourFM: {month}'
+    playlist_name = f'OurFM: {month}'
     return playlist_name
 
 
