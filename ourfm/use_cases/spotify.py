@@ -1,8 +1,10 @@
 from flask import current_app as app
 import os
 
+from . import groups
 from ourfm.data import models as md
 from ourfm.domain import spotify, email
+
 
 logger = app.logger
 
@@ -20,9 +22,10 @@ def create_user_month_playlist(user_id, duration='month', total=50):
 
 
 def create_playlists():
-    users = md.User.all()
-    return [create_user_month_playlist(user_id=user.id, duration='month', total=50) for user in users]
-
+    users, group_models = md.User.all(), md.Group.all()
+    [create_user_month_playlist(user_id=user.id, duration='month', total=50) for user in users]
+    [groups.create_playlist(group.id) for group in group_models]
+    
 
 def get_playlist(playlist_id):
     return spotify.playlists.get(playlist_id)
