@@ -25,7 +25,7 @@ class UserTrackCurrent(Resource):
         return track.name
 
 
-class UserFriend(Resource):
+class UserContact(Resource):
 
     def get(self):
         return users.get_friends(user_id=request.args['user_id'])

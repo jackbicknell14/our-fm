@@ -16,7 +16,7 @@ def profile():
 
 @user_blueprint.route('/friends')
 def friends():
-    friends = v0.UserFriend().get()
+    friends = v0.UserContact().get()
     return render_template('friends.html', page='Friends', friends=friends)
 
 
